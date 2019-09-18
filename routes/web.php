@@ -27,3 +27,10 @@ Route::patch('/users/{user}/password', 'UserController@updatePassword')->name('u
 Route::delete('/users/{user}', 'UserController@destroy')->name('users.destroy')->middleware('can:is-admin');
 
 Route::patch('/users/{user}/activation', 'AdminController@setUserActiveness')->name('admin.activate')->middleware(['auth', 'can:is-admin']);
+
+
+Route::post('/annonces', 'AnnoncesController@store')->name('annonces.store');
+
+Route::put('/annonce/{annonce}', 'AnnoncesController@update')->name('annonces.update')->middleware('can:update,annonce');
+
+Route::delete('/annonce/{annonce}', 'AnnoncesController@destroy')->name('annonces.destroy')->middleware('can:delete,annonce');

@@ -9,6 +9,6 @@ use Faker\Generator as Faker;
 $factory->define(Annonce::class, function (Faker $faker) {
     return [
         'content' => $faker->text,
-        'user_id' => User::first()->id
+        'user_id' => factory(User::class)->create()->id
     ];
 });
