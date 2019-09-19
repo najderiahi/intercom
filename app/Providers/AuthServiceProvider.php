@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Policies\AnnoncePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -34,5 +35,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('is-admin', function ($user) {
             return $user->isAdmin();
         });
+
+        Passport::routes();
     }
 }

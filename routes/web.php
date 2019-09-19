@@ -15,10 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
+// Users
 Auth::routes();
-
-
-
 Route::get('/users', 'UserController@index')->name('users.index');
 Route::get('/users/{user}', 'UserController@show')->name('users.show');
 Route::patch('/users/{user}', 'UserController@update')->name('users.update')->middleware('can:update-user,user');
@@ -29,8 +29,12 @@ Route::delete('/users/{user}', 'UserController@destroy')->name('users.destroy')-
 Route::patch('/users/{user}/activation', 'AdminController@setUserActiveness')->name('admin.activate')->middleware(['auth', 'can:is-admin']);
 
 
+//Annonces
 Route::post('/annonces', 'AnnoncesController@store')->name('annonces.store');
 
 Route::put('/annonce/{annonce}', 'AnnoncesController@update')->name('annonces.update')->middleware('can:update,annonce');
 
 Route::delete('/annonce/{annonce}', 'AnnoncesController@destroy')->name('annonces.destroy')->middleware('can:delete,annonce');
+
+
+//Messages

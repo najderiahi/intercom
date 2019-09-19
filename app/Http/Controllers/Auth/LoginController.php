@@ -55,7 +55,7 @@ class LoginController extends Controller
         if ($this->attemptLogin($request)) {
 
             $user = Auth::user();
-            if($user->active === true) {
+            if($user->active == 1) {
                 return $this->sendLoginResponse($request);
             }
             Auth::logout();

@@ -42,9 +42,19 @@ class UserTest extends TestCase
         $this->assertCount(1, User::all());
 
 
-        $response = $this->post('/login', $this->data());
+        $response = $this->post('/login', ["email" => $user->email, 'password' => 'password']);
         $this->assertInstanceOf(ValidationException::class, $response->exception);
         $response->assertRedirect();
+    }
+
+    public function testActiveUserCanBeLoggedIn() {
+        $user = factory(User::class)->create(['active' => 1]);
+        $this->assertEquals(1, $user->active);
+        $this->assertCount(1, User::all());
+
+
+        $response = $this->post('/login', ["email" => $user->email, 'password' => 'password']);
+        $response->assertRedirect("/home");
     }
 
     public function testUpdateNameLastNameAndAvatarSucceedWhenUserIsConnected()
