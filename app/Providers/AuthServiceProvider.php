@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Policies\AnnoncePolicy;
+use App\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Passport\Passport;
@@ -30,10 +31,6 @@ class AuthServiceProvider extends ServiceProvider
 
         Passport::routes();
         Passport::cookie('intercom_token');
-
-        Gate::define('update-user', function ($user, $other) {
-            return $user->id == $other->id;
-        });
 
         Gate::define('is-admin', function ($user) {
             return $user->isAdmin();

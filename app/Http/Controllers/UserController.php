@@ -33,6 +33,10 @@ class UserController extends Controller
 
     }
 
+    public function edit() {
+        return view('auth.update-info');
+    }
+
     public function show(User $user) {
         return 'Working';
     }
@@ -54,11 +58,11 @@ class UserController extends Controller
         if(Hash::check($request->old_password, $user->password)) {
             $user->password = Hash::make($request->new_password);
             $user->save();
-
-
         } else {
             return redirect()->back();
         }
+
+        return redirect()->route('home');
     }
 
     public function destroy(Request $request, User $user) {
