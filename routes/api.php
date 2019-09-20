@@ -17,4 +17,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/@me/channel/{user}', 'MessagesController@store')->name('messages.store');
+Route::middleware('auth:api')->get('/users', 'Api\UsersController@index')->name('users.index');
+
+Route::middleware('auth:api')->post('/@me/channel/{user}', 'MessagesController@store')->name('messages.store');
+
+Route::patch('/users/{user}/activation', 'AdminController@setUserActiveness')->name('admin.activate')->middleware(['auth:api', 'can:is-admin']);
+
+Route::delete('/users/{user}', 'UserController@destroy')->name('users.destroy')->middleware(['auth:api', 'can:is-admin']);

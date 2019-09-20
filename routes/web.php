@@ -24,9 +24,7 @@ Route::get('/users/{user}', 'UserController@show')->name('users.show');
 Route::patch('/users/{user}', 'UserController@update')->name('users.update')->middleware('can:update-user,user');
 Route::patch('/users/{user}/password', 'UserController@updatePassword')->name('users.update.password')->middleware('can:update-user,user');
 
-Route::delete('/users/{user}', 'UserController@destroy')->name('users.destroy')->middleware('can:is-admin');
 
-Route::patch('/users/{user}/activation', 'AdminController@setUserActiveness')->name('admin.activate')->middleware(['auth', 'can:is-admin']);
 
 
 //Annonces
@@ -36,5 +34,11 @@ Route::put('/annonce/{annonce}', 'AnnoncesController@update')->name('annonces.up
 
 Route::delete('/annonce/{annonce}', 'AnnoncesController@destroy')->name('annonces.destroy')->middleware('can:delete,annonce');
 
+Auth::routes();
 
-//Messages
+Route::get('/home', 'HomeController@index')->name('home');
+
+
+//Admin
+
+Route::get('/dashboard', 'AdminController@dashboard')->name('admin.dashboard')->middleware(['auth', 'can:is-admin']);

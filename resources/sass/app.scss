@@ -1,1 +1,53 @@
-//
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+@import '~@uppy/core/dist/style.css';
+@import '~@uppy/dashboard/dist/style.css';
+
+.input-group-text {
+    background-color: white;
+}
+
+.login-form input[type="password"], .login-form input[type="email"]{
+    border: none;
+    background-color: #f9f9fb;
+    box-shadow: none;
+}
+
+.login-form input[type="password"]:focus,
+.login-form  input[type="email"]:focus{
+    background-color: #f9f9fb;
+    box-shadow: none;
+}
+
+.register-link {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin: 0.75rem 1rem;
+}
+
+.bg-light-success {
+    background-color: rgba($green, 0.3);
+}
+
+.badge {
+    padding: 0.75rem 1.25rem;
+}
+
+.badge-success {
+    background-color: rgba($green, 0.1);
+    color: $green;
+}
+
+.badge-danger {
+    background-color: rgba($red, 0.1);
+    color: $red;
+}

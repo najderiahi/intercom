@@ -69,7 +69,7 @@ class UserTest extends TestCase
         $this->assertEquals('Jane', $user->fresh()->first_name);
         $this->assertEquals('Yoa', $user->fresh()->last_name);
         $this->assertNotNull($user->fresh()->avatar);
-        Storage::disk('local')->assertExists('avatars/' . $file->hashName());
+        Storage::disk('local')->assertExists('public/avatars/' . $file->hashName());
     }
 
     public function testUpdateNameLastNameAndAvatarFailWhenUserIsNotConnected()
@@ -145,4 +145,16 @@ class UserTest extends TestCase
 
         $response->assertStatus(403);
     }
+
+    public function testCreateAUserWithFileSucceed() {
+        $file = UploadedFile::fake()->image('avatar.jpg');
+        $data = array_merge($this->data(), ['avatar' => $file, 'password_confirmation' => 'password']);
+
+        $response = $this->post('/register', $data);
+
+
+        $this->assertCount(1, User::all());
+        Storage::disk('local')->assertExists('public/avatars/' . $file->hashName());
+    }
+
 }

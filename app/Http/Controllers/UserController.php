@@ -18,7 +18,7 @@ class UserController extends Controller
         return $request->validate([
             'first_name' => 'nullable|string|max:255',
             'last_name' => 'nullable|string|max:255',
-            'avatar' => 'nullable|image|max:255',
+            'avatar' => 'nullable|image',
         ]);
     }
 
@@ -40,7 +40,7 @@ class UserController extends Controller
     public function update(Request $request, User $user) {
         $this->validator($request);
         $data = $request->only(['first_name', 'last_name']);
-        $path = $request->file('avatar')->store('avatars');
+        $path = $request->file('avatar')->store('public/avatars');
 
         $user->first_name = $data['first_name'];
         $user->last_name = $data['last_name'];

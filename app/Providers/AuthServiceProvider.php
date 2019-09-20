@@ -28,6 +28,9 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        Passport::routes();
+        Passport::cookie('intercom_token');
+
         Gate::define('update-user', function ($user, $other) {
             return $user->id == $other->id;
         });
@@ -36,6 +39,8 @@ class AuthServiceProvider extends ServiceProvider
             return $user->isAdmin();
         });
 
-        Passport::routes();
+        Gate::define('is-active', function ($user) : bool {
+            return $user->active == 1;
+        });
     }
 }

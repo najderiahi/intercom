@@ -18,16 +18,16 @@ class AnnonceTest extends TestCase
         ];
     }
 
-    public function testCreateANewAnnonceWithValidDataSucceed() {
-        $user = factory(User::class)->create();
+    public function testCreateANewAnnonceWithValidDataAndActiveUserSucceed() {
+        $user = factory(User::class)->state('active')->create();
         $response = $this->actingAs($user)->post("/annonces", $this->data());
         $response->assertStatus(200);
         $this->assertCount(1, Annonce::all());
         $this->assertEquals($user->id, Annonce::first()->user_id);
     }
 
-    public function testCreateAnAnnonceWithInvalidContentFails() {
-        $user = factory(User::class)->create();
+    public function testCreateAnAnnonceWithInvalidContentAndActiveUserFails() {
+        $user = factory(User::class)->state('active')->create();
         $response = $this->actingAs($user)->post("/annonces", array_merge($this->data(), ['content' => '']));
         $response->assertRedirect();
         $this->assertCount(0, Annonce::all());
@@ -40,10 +40,10 @@ class AnnonceTest extends TestCase
         $this->assertCount(0, Annonce::all());
     }
 
-    public function testAnAnnonceCanBeUpdated() {
+    public function testAnAnnonceCanBeUpdatedByActiveUser() {
 
 
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->state('active')->create();
         $annonce = factory(Annonce::class)->create(['user_id' => $user->id]);
 
         $response = $this->actingAs($annonce->author)->put('/annonce/'.$annonce->id, array_merge($this->data(), ['content' => 'Nouveau contenu']));
@@ -85,10 +85,9 @@ class AnnonceTest extends TestCase
         $this->assertEquals('Nouveau contenu', $annonce->fresh()->content);
     }
 
-    public function testAnUserCanDeleteOneOfHisAnnonce() {
-        $this->withoutExceptionHandling();
+    public function testAnActiveUserCanDeleteOneOfHisAnnonce() {
 
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->state('active')->create();
         $annonce = factory(Annonce::class)->create(['user_id' => $user->id]);
 
         $this->assertCount(1, Annonce::all());
@@ -124,5 +123,16 @@ class AnnonceTest extends TestCase
         $this->assertCount(1, Annonce::all());
     }
 
+    public function testAnInactiveUserCannotPostAnnonce() {
+        $user = factory(User::class)->create();
+        $this->assertEquals(0, $user->active);
+        $response = $this->actingAs($user)->post("/annonces", $this->data());
+        $response->assertStatus(403);
+
+    }
+
+//    public function testAnInactiveUserCannotDeleteAnnonce() {
+//
+//    }
 
 }

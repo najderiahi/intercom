@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
@@ -29,6 +30,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    protected $appends = ['name', 'avatar_url'];
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -40,5 +43,16 @@ class User extends Authenticatable
 
     public function isAdmin() {
         return $this->role == 1;
+    }
+
+    public function getNameAttribute() {
+        return $this->firstName.' '.$this->lastName;
+    }
+
+    public function getAvatarUrlAttribute() {
+        if(is_null($this->avatar)) {
+            return null;
+        }
+        return Storage::disk('local')->url($this->avatar);
     }
 }

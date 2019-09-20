@@ -14,6 +14,7 @@ class MessagesController extends Controller
     public function __construct()
     {
         $this->middleware("auth:api");
+        $this->middleware("can:is-active");
     }
 
     protected function validator(Request $request)
