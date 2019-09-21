@@ -15,9 +15,15 @@
 
 <script>
     export default {
+        props: ["old", "avatar"],
         data () {
             return {
                 url: '',
+            }
+        },
+        mounted () {
+            if(this.old) {
+                this.url = this.old;
             }
         },
         methods: {
@@ -31,8 +37,22 @@
                     return;
                 }
             },
-            cancelUpload() {
+            async cancelUpload() {
                 this.$refs.fileInput.value = "";
+                if(this.url === this.old) {
+                    const data = {url: this.avatar};
+                    let response = await fetch(`/api/images/delete`, {
+                        credentials: 'same-origin',
+                        method: "DELETE",
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-TOKEN': document.querySelector("meta[name='csrf-token']").getAttribute('content'),
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+                    console.log(response.ok);
+                }
                 this.url = "";
             }
         },
@@ -72,6 +92,14 @@
         background-color: #5867dd;
         border-radius: 50%;
         box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.1);
+    }
+
+    .avatar-upload i {
+        position: absolute;
+        color: white;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 
     .avatar-cancel {

@@ -207,15 +207,6 @@
         border-bottom: 1px solid #f0f3ff;
     }
 
-    .avatar-img {
-        width: 60px;
-        height: 60px;
-        border-radius: 4px;
-        box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.1);
-        margin: 0 .5rem;
-    }
 
-    .large-text {
-        font-size: 1.75rem;
-    }
+
 </style>

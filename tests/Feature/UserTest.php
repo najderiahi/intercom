@@ -100,15 +100,13 @@ class UserTest extends TestCase
     public function testChangePasswordByUserWorks()
     {
 
-        $this->withoutExceptionHandling();
-
         $user = factory(User::class)->create();
 
         $data = ['old_password' => 'password', 'new_password' => 'new_password', 'new_password_confirmation' => 'new_password'];
 
         $response = $this->actingAs($user)->patch('/users/' . $user->id . '/password', $data);
 
-        $response->assertStatus(200);
+        $response->assertRedirect();
         $this->assertTrue(Hash::check('new_password', $user->fresh()->password));
     }
 
@@ -157,4 +155,9 @@ class UserTest extends TestCase
         Storage::disk('local')->assertExists('public/avatars/' . $file->hashName());
     }
 
+    public function testUserCanAccessHisEditPageWhenHesLoggedIn() {
+        $user = factory(User::class)->create();
+        $response = $this->actingAs($user)->get('/users/'.$user->id.'/edit');
+        $response->assertStatus(200);
+    }
 }

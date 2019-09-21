@@ -21,9 +21,10 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('/users', 'UserController@index')->name('users.index');
 Route::get('/users/{user}', 'UserController@show')->name('users.show');
-Route::patch('/users/{user}', 'UserController@update')->name('users.update')->middleware(['auth', 'can:update,user']);
-Route::get('/users/{user}/edit', 'UserController@edit')->name('users.edit')->middleware(['auth', 'can:update,user']);
-Route::patch('/users/{user}/password', 'UserController@updatePassword')->name('users.update.password')->middleware('can:update,user');
+Route::patch('/users/{user}', 'UserController@update')->name('users.update')->middleware(['can:update,user']);
+Route::get('/users/{user}/edit', 'UserController@edit')->name('users.edit')->middleware(['can:view,user']);
+Route::patch('/users/{user}/password', 'UserController@updatePassword')->name('users.update.password')->middleware(['can:update,user']);
+Route::get('/users/{user}/password', 'UserController@showUpdatePasswordForm')->name('users.edit.password')->middleware(['can:update,user']);
 
 
 
@@ -37,7 +38,7 @@ Route::delete('/annonce/{annonce}', 'AnnoncesController@destroy')->name('annonce
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/feed', 'HomeController@index')->name('home');
 
 
 //Admin

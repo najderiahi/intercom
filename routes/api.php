@@ -24,3 +24,5 @@ Route::middleware('auth:api')->post('/@me/channel/{user}', 'MessagesController@s
 Route::patch('/users/{user}/activation', 'AdminController@setUserActiveness')->name('admin.activate')->middleware(['auth:api', 'can:is-admin']);
 
 Route::delete('/users/{user}', 'UserController@destroy')->name('users.destroy')->middleware(['auth:api', 'can:is-admin']);
+
+Route::delete('/images/delete', 'ImageController@destroy')->name('images.destroy')->middleware(['auth:api']); //'can:image-delete'

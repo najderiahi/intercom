@@ -12913,6 +12913,10 @@ a.text-dark:focus {
   background-color: rgba(28, 191, 174, 0.3);
 }
 
+.bg-light-primary {
+  background-color: rgba(88, 103, 221, 0.1);
+}
+
 .badge {
   padding: 0.75rem 1.25rem;
 }
@@ -12925,5 +12929,22 @@ a.text-dark:focus {
 .badge-danger {
   background-color: rgba(253, 57, 122, 0.1);
   color: #fd397a;
+}
+
+.avatar-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 4px;
+  box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.1);
+  margin: 0 0.5rem;
+}
+
+.large-text {
+  font-size: 1.75rem;
+}
+
+.large-avatar {
+  width: 80px;
+  height: 80px;
 }
 

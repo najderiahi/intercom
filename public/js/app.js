@@ -1872,6 +1872,14 @@ module.exports = function isBuffer (obj) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -1888,10 +1896,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["old", "avatar"],
   data: function data() {
     return {
       url: ''
     };
+  },
+  mounted: function mounted() {
+    if (this.old) {
+      this.url = this.old;
+    }
   },
   methods: {
     readUrl: function readUrl() {
@@ -1908,10 +1922,58 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
     },
-    cancelUpload: function cancelUpload() {
-      this.$refs.fileInput.value = "";
-      this.url = "";
-    }
+    cancelUpload: function () {
+      var _cancelUpload = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var data, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                this.$refs.fileInput.value = "";
+
+                if (!(this.url === this.old)) {
+                  _context.next = 7;
+                  break;
+                }
+
+                data = {
+                  url: this.avatar
+                };
+                _context.next = 5;
+                return fetch("/api/images/delete", {
+                  credentials: 'same-origin',
+                  method: "DELETE",
+                  headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': document.querySelector("meta[name='csrf-token']").getAttribute('content'),
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(data)
+                });
+
+              case 5:
+                response = _context.sent;
+                console.log(response.ok);
+
+              case 7:
+                this.url = "";
+
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function cancelUpload() {
+        return _cancelUpload.apply(this, arguments);
+      }
+
+      return cancelUpload;
+    }()
   },
   computed: {
     canBeCancelled: function canBeCancelled() {
@@ -6690,7 +6752,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.avatar.avatar-outline {\n    position: relative;\n}\n.avatar-holder{\n    width: 120px;\n    height: 120px;\n    padding: 5px;\n    border-radius: 4px;\n    box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.1);\n}\n.avatar-upload>input[type=\"file\"] {\n    visibility: hidden;\n}\n.avatar-upload {\n    cursor: pointer;\n    position: absolute;\n    display: block;\n    top: -15px;\n    left: 105px;\n    height: 30px;\n    width: 30px;\n    background-color: #5867dd;\n    border-radius: 50%;\n    box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.1);\n}\n.avatar-cancel {\n    position: absolute;\n    display: block;\n    bottom: -5px;\n    left: 110px;\n    height: 20px;\n    width: 20px;\n    background-color: #fff;\n    border-radius: 50%;\n    box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.1);\n    transform: scale(1.0);\n    transition: 0.3s all;\n}\n.avatar-cancel i {\n    position: absolute;\n    top: 4px;\n    left: 4px;\n    color: #74788d;\n}\n.avatar-holder>img {\n    width: 100%;\n    height: 100%;\n}\n.avatar-cancel:hover {\n    transform: scale(1.2);\n}\n\n", ""]);
+exports.push([module.i, "\n.avatar.avatar-outline {\n    position: relative;\n}\n.avatar-holder{\n    width: 120px;\n    height: 120px;\n    padding: 5px;\n    border-radius: 4px;\n    box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.1);\n}\n.avatar-upload>input[type=\"file\"] {\n    visibility: hidden;\n}\n.avatar-upload {\n    cursor: pointer;\n    position: absolute;\n    display: block;\n    top: -15px;\n    left: 105px;\n    height: 30px;\n    width: 30px;\n    background-color: #5867dd;\n    border-radius: 50%;\n    box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.1);\n}\n.avatar-upload i {\n    position: absolute;\n    color: white;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n}\n.avatar-cancel {\n    position: absolute;\n    display: block;\n    bottom: -5px;\n    left: 110px;\n    height: 20px;\n    width: 20px;\n    background-color: #fff;\n    border-radius: 50%;\n    box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.1);\n    transform: scale(1.0);\n    transition: 0.3s all;\n}\n.avatar-cancel i {\n    position: absolute;\n    top: 4px;\n    left: 4px;\n    color: #74788d;\n}\n.avatar-holder>img {\n    width: 100%;\n    height: 100%;\n}\n.avatar-cancel:hover {\n    transform: scale(1.2);\n}\n\n", ""]);
 
 // exports
 
@@ -6709,7 +6771,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\ntable {\n    background-color: white;\n    border-radius: 4px;\n    border-collapse: collapse;\n    box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.1);\n}\n.table td, th {\n    font-weight: normal;\n    border: none !important;\n}\n.table th {\n    cursor: pointer;\n}\ntr {\n    border-bottom: 1px solid #f0f3ff;\n}\n.avatar-img {\n    width: 60px;\n    height: 60px;\n    border-radius: 4px;\n    box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.1);\n    margin: 0 .5rem;\n}\n.large-text {\n    font-size: 1.75rem;\n}\n", ""]);
+exports.push([module.i, "\ntable {\n    background-color: white;\n    border-radius: 4px;\n    border-collapse: collapse;\n    box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.1);\n}\n.table td, th {\n    font-weight: normal;\n    border: none !important;\n}\n.table th {\n    cursor: pointer;\n}\ntr {\n    border-bottom: 1px solid #f0f3ff;\n}\n\n\n\n", ""]);
 
 // exports
 
