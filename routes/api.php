@@ -26,3 +26,6 @@ Route::patch('/users/{user}/activation', 'AdminController@setUserActiveness')->n
 Route::delete('/users/{user}', 'UserController@destroy')->name('users.destroy')->middleware(['auth:api', 'can:is-admin']);
 
 Route::delete('/images/delete', 'ImageController@destroy')->name('images.destroy')->middleware(['auth:api']); //'can:image-delete'
+
+Route::get('/annonces', 'AnnoncesController@index')->name('annonces.index');
+Route::post('/annonces', 'AnnoncesController@store')->name('annonces.store');

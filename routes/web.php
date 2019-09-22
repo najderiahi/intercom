@@ -29,9 +29,6 @@ Route::get('/users/{user}/password', 'UserController@showUpdatePasswordForm')->n
 
 
 
-//Annonces
-Route::post('/annonces', 'AnnoncesController@store')->name('annonces.store');
-
 Route::put('/annonce/{annonce}', 'AnnoncesController@update')->name('annonces.update')->middleware('can:update,annonce');
 
 Route::delete('/annonce/{annonce}', 'AnnoncesController@destroy')->name('annonces.destroy')->middleware('can:delete,annonce');

@@ -11,7 +11,7 @@ class AnnoncesController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:api');
         $this->middleware('can:is-active');
     }
 
@@ -22,12 +22,17 @@ class AnnoncesController extends Controller
         ]);
     }
 
+    public function index() {
+        return response()->json(Annonce::with('author')->orderBy('created_at', 'DESC')->get());
+    }
+
     public function store(Request $request) {
         $this->validator($request);
         $data = $request->only(['content']);
         $data = array_merge($data, ['user_id' => Auth::id()]);
 
         Annonce::create($data);
+        return response()->json(["data" => "Created"]);
     }
 
     public function update(Request $request, Annonce $annonce) {

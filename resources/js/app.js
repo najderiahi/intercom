@@ -1,11 +1,12 @@
+require('./bootstrap');
+
 import Vue from 'vue';
 import FileUploader from './components/FileUploader';
 import UsersTable from './components/UsersTable';
-
-require('./bootstrap');
-
+import AnnonceList from './components/AnnonceList';
+import CreateAnnonce from './components/CreateAnnonce'
 
 const app = new Vue({
     el: '#app',
-    components: {FileUploader, UsersTable}
+    components: {FileUploader, UsersTable, AnnonceList, CreateAnnonce}
 });
