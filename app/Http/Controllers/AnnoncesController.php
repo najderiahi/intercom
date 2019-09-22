@@ -23,7 +23,7 @@ class AnnoncesController extends Controller
     }
 
     public function index() {
-        return response()->json(Annonce::with('author')->orderBy('created_at', 'DESC')->get());
+        return response()->json(Annonce::with('author')->orderBy('created_at', 'DESC')->paginate(5));
     }
 
     public function store(Request $request) {

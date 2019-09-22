@@ -18,7 +18,7 @@
     export default {
         data () {
             return {
-                content: ""
+                content: "",
             }
         },
         methods: {
@@ -39,8 +39,6 @@
 
                 if(response.ok) {
                     console.log("Done !")
-                } else {
-                    // TODO: Something in JS
                 }
             }
         }

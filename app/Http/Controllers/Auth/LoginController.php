@@ -64,7 +64,7 @@ class LoginController extends Controller
         if (Auth::user()->isAdmin()) {
             return '/dashboard';
         } else {
-            return '/home';
+            return '/feed';
         }
     }
 

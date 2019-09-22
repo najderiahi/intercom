@@ -1926,6 +1926,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AnnonceElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AnnonceElement */ "./resources/js/components/AnnonceElement.vue");
 
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -1936,53 +1944,128 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      annonces: []
+      annonces: [],
+      nextUrl: null,
+      loading: true
     };
+  },
+  methods: {
+    loadAnnonces: function () {
+      var _loadAnnonces = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(url) {
+        var response, data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return fetch(url, {
+                  credentials: 'same-origin',
+                  headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Content-Type': 'application/json'
+                  }
+                });
+
+              case 2:
+                response = _context.sent;
+
+                if (!response.ok) {
+                  _context.next = 12;
+                  break;
+                }
+
+                _context.next = 6;
+                return response.json();
+
+              case 6:
+                data = _context.sent;
+                this.annonces = [].concat(_toConsumableArray(this.annonces), _toConsumableArray(data['data']));
+                this.nextUrl = data['next_page_url'];
+                console.log(data);
+                _context.next = 13;
+                break;
+
+              case 12:
+                this.loading = false;
+
+              case 13:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function loadAnnonces(_x) {
+        return _loadAnnonces.apply(this, arguments);
+      }
+
+      return loadAnnonces;
+    }(),
+    handleScroll: function handleScroll(event) {
+      var bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight;
+
+      if (bottomOfWindow) {
+        this.loading = true;
+        this.loadAnnonces(this.nextUrl);
+      }
+    },
+    loadMoreAnnonces: function () {
+      var _loadMoreAnnonces = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this.loadAnnonces(this.nextUrl);
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function loadMoreAnnonces() {
+        return _loadMoreAnnonces.apply(this, arguments);
+      }
+
+      return loadMoreAnnonces;
+    }()
   },
   mounted: function () {
     var _mounted = _asyncToGenerator(
     /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
-          switch (_context.prev = _context.next) {
+          switch (_context3.prev = _context3.next) {
             case 0:
-              _context.next = 2;
-              return fetch("/api/annonces", {
-                credentials: 'same-origin',
-                headers: {
-                  "X-Requested-With": "XMLHttpRequest",
-                  "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                  'Content-Type': 'application/json'
-                }
-              });
+              _context3.next = 2;
+              return this.loadAnnonces("/api/annonces");
 
             case 2:
-              response = _context.sent;
-
-              if (!response.ok) {
-                _context.next = 8;
-                break;
-              }
-
-              _context.next = 6;
-              return response.json();
-
-            case 6:
-              this.annonces = _context.sent;
-              console.log(this.annonces);
-
-            case 8:
             case "end":
-              return _context.stop();
+              return _context3.stop();
           }
         }
-      }, _callee, this);
+      }, _callee3, this);
     }));
 
     function mounted() {
@@ -1991,6 +2074,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     return mounted;
   }(),
+  created: function created() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  destroyed: function destroyed() {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
   components: {
     AnnonceElement: _AnnonceElement__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
@@ -2075,7 +2164,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 if (response.ok) {
                   console.log("Done !");
-                } else {// TODO: Something in JS
                 }
 
               case 7:
@@ -39809,13 +39897,35 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    _vm._l(_vm.annonces, function(annonce) {
-      return _c("annonce-element", {
-        key: annonce.id,
-        attrs: { annonce: annonce }
-      })
-    }),
-    1
+    { ref: "annoncesWrapper" },
+    [
+      _vm._l(_vm.annonces, function(annonce) {
+        return _c("annonce-element", {
+          key: annonce.id,
+          attrs: { annonce: annonce }
+        })
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "text-center my-3" }, [
+        _c(
+          "button",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: this.nextUrl && !this.loading,
+                expression: "this.nextUrl && !this.loading"
+              }
+            ],
+            staticClass: "btn btn-primary",
+            on: { click: this.loadMoreAnnonces }
+          },
+          [_vm._v("\n            Charger\n            plus\n        ")]
+        )
+      ])
+    ],
+    2
   )
 }
 var staticRenderFns = []
