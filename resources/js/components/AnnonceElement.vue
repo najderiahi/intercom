@@ -23,14 +23,13 @@
 </template>
 
 <script>
-    import moment from 'moment'
     export default {
         props: {
             "annonce": Object,
         },
         computed: {
             formattedDate () {
-                return moment(Date(this.annonce.created_at)).format("D MMM Y, HH:mm");
+                return Date(this.annonce.created_at)
             }
         }
     }

@@ -12957,3 +12957,20 @@ textarea {
   resize: none;
 }
 
+.conversation-body {
+  height: 60vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.textarea-form {
+  bottom: 0;
+  width: 94%;
+  left: auto;
+  right: auto;
+}
+
+.message-component {
+  max-width: 60%;
+}
+

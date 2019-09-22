@@ -30,7 +30,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    protected $appends = ['name', 'avatar_url'];
+    protected $appends = ['avatar_url'];
 
     /**
      * The attributes that should be cast to native types.
@@ -43,10 +43,6 @@ class User extends Authenticatable
 
     public function isAdmin() {
         return $this->role == 1;
-    }
-
-    public function getNameAttribute() {
-        return $this->firstName.' '.$this->lastName;
     }
 
     public function getAvatarUrlAttribute() {

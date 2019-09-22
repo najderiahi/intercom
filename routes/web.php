@@ -41,3 +41,8 @@ Route::get('/feed', 'HomeController@index')->name('home');
 //Admin
 
 Route::get('/dashboard', 'AdminController@dashboard')->name('admin.dashboard')->middleware(['auth', 'can:is-admin']);
+
+//Chat
+
+Route::get('/conversations', 'ConversationsController@index')->name('conversations.index')->middleware(['auth']);
+Route::get('/conversations/{user}', 'ConversationsController@show')->name('conversations.show')->middleware(['auth']);
