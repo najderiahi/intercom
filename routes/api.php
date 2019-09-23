@@ -31,8 +31,9 @@ Route::get('/annonces', 'AnnoncesController@index')->name('annonces.index');
 Route::post('/annonces', 'AnnoncesController@store')->name('annonces.store');
 
 
-Route::group(['middleware' => ['auth:api']], function () {
+Route::group(['middleware' => ['auth:api', 'can:is-active']], function () {
     Route::get('/conversations', 'Api\ConversationsController@index');
     Route::get('/conversation/{user}', 'Api\ConversationsController@show');
     Route::post('/conversations/{user}', 'Api\ConversationsController@store');
+    Route::patch('/messages/{message}', 'Api\MessagesController@read')->middleware(['can:read,message']);
 });

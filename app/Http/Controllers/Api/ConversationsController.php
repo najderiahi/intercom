@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\NewMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MessageRequest;
 use App\Repository\Interfaces\ConversationRepositoryInterface;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ConversationsController extends Controller
@@ -47,10 +49,15 @@ class ConversationsController extends Controller
         } else {
             $count = $messagesQuery->count();
         }
+        $update = false;
         $messages = $messagesQuery->limit(10)->get();
         foreach($messages as $message) {
             if($message->read_at == null && $message->receiver_id === $request->user()->id) {
-                $this->conversationRepository->readAllFrom($message->sender_id, $message->receiver_id);
+                $message->read_at = Carbon::now();
+                if($update === false) {
+                    $this->conversationRepository->readAllFrom($message->sender_id, $message->receiver_id);
+                }
+                $update = true;
                 break;
             }
         }
@@ -63,6 +70,7 @@ class ConversationsController extends Controller
     public function store(MessageRequest $request, User $user)
     {
         $message = $this->conversationRepository->createMessage($request->get('content'), $request->user()->id, $user->id);
+        broadcast(new NewMessage($message));
         return response()->json(['message' => $message]);
     }
 }

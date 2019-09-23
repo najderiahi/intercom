@@ -9,6 +9,7 @@ export default new Vuex.Store({
     strict: true,
     state: {
         user: null,
+        openedConversations: [],
         conversations: {}
     },
     getters: {

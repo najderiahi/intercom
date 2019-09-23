@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Annonce;
+use App\Message;
 use App\Policies\AnnoncePolicy;
+use App\Policies\MessagePolicy;
 use App\Policies\UserPolicy;
 use App\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -19,7 +22,8 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         // 'App\Model' => 'App\Policies\ModelPolicy',
         Annonce::class => AnnoncePolicy::class,
-        User::class => UserPolicy::class
+        User::class => UserPolicy::class,
+        Message::class => MessagePolicy::class
     ];
 
     /**

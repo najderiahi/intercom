@@ -15,12 +15,11 @@ class MessageTest extends TestCase
 
     public function testAnActiveUserCanSendAMessageToAnotherOne()
     {
-        $this->withoutExceptionHandling();
         $sender = factory(User::class)->state('active')->create();
         $receiver = factory(User::class)->create();
 
-        Passport::actingAs($sender, []);
-        $response = $this->post('api/@me/channel/' . $receiver->id, ['content' => "Je suis un message"]);
+        Passport::actingAs($sender);
+        $response = $this->json('POST', 'api/conversations/' . $receiver->id, ['content' => "Je suis un message"]);
         $message = Message::first();
         $response->assertStatus(200);
         $this->assertCount(1, Message::all());
@@ -35,7 +34,7 @@ class MessageTest extends TestCase
         $receiver = factory(User::class)->create();
 
         Passport::actingAs($sender, []);
-        $response = $this->json('POST', 'api/@me/channel/' . $receiver->id, ['content' => "Je suis un message"]);
+        $response = $this->json('POST', 'api/conversations/' . $receiver->id, ['content' => "Je suis un message"]);
 
         $message = Message::first();
         $response->assertStatus(403);
@@ -47,7 +46,7 @@ class MessageTest extends TestCase
     {
         $receiver = factory(User::class)->create();
 
-        $response = $this->json('POST', 'api/@me/channel/' . $receiver->id, ['content' => "Je suis un message"]);
+        $response = $this->json('POST', '/api/conversations/' . $receiver->id, ['content' => "Je suis un message"]);
 
         $message = Message::first();
         $response->assertStatus(401);

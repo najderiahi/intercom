@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Annonce;
 use App\User;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -20,7 +21,8 @@ class AnnonceTest extends TestCase
 
     public function testCreateANewAnnonceWithValidDataAndActiveUserSucceed() {
         $user = factory(User::class)->state('active')->create();
-        $response = $this->actingAs($user)->post("/annonces", $this->data());
+        Passport::actingAs($user);
+        $response = $this->json('POST', "/api/annonces", $this->data());
         $response->assertStatus(200);
         $this->assertCount(1, Annonce::all());
         $this->assertEquals($user->id, Annonce::first()->user_id);
@@ -28,15 +30,16 @@ class AnnonceTest extends TestCase
 
     public function testCreateAnAnnonceWithInvalidContentAndActiveUserFails() {
         $user = factory(User::class)->state('active')->create();
-        $response = $this->actingAs($user)->post("/annonces", array_merge($this->data(), ['content' => '']));
-        $response->assertRedirect();
+        Passport::actingAs($user);
+        $response = $this->json("POST", "/api/annonces", array_merge($this->data(), ['content' => '']));
+        $response->assertStatus(422); // Unprocessable Entity
         $this->assertCount(0, Annonce::all());
     }
 
     public function testAnnonceCannotBeCreatedByGuest() {
         $user = factory(User::class)->create();
-        $response = $this->post("/annonces", $this->data());
-        $response->assertRedirect();
+        $response = $this->json("POST", "/api/annonces", $this->data());
+        $response->assertStatus(401);
         $this->assertCount(0, Annonce::all());
     }
 
@@ -46,7 +49,8 @@ class AnnonceTest extends TestCase
         $user = factory(User::class)->state('active')->create();
         $annonce = factory(Annonce::class)->create(['user_id' => $user->id]);
 
-        $response = $this->actingAs($annonce->author)->put('/annonce/'.$annonce->id, array_merge($this->data(), ['content' => 'Nouveau contenu']));
+        Passport::actingAs($annonce->author);
+        $response = $this->json("PUT", '/api/annonce/'.$annonce->id, array_merge($this->data(), ['content' => 'Nouveau contenu']));
 
         $response->assertStatus(200);
         $this->assertEquals('Nouveau contenu', $annonce->fresh()->content);

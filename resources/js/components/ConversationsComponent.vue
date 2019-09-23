@@ -5,7 +5,8 @@
                 <template v-for="conversation in conversations">
                     <div class="list-group-item d-flex flex-column">
                         <img :src="conversation.avatar_url" alt="" v-if="conversation.avatar_url">
-                        <router-link :to="{name: 'conversation', params: {id: conversation.id} }" class=" d-flex justify-content-between align-items-center w-100">
+                        <router-link :to="{name: 'conversation', params: {id: conversation.id} }"
+                                     class=" d-flex justify-content-between align-items-center w-100">
                             {{ `${conversation.first_name} ${conversation.last_name}` }}
                             <span class="p-1 bg-primary rounded-circle" v-if="conversation.unread"></span>
                         </router-link>
@@ -30,6 +31,8 @@
             ...mapGetters(['conversations'])
         },
         mounted() {
+
+
             this.$store.dispatch("loadConversations")
             this.$store.dispatch("setUser", this.user)
         }

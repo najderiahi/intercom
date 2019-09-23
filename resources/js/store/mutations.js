@@ -27,5 +27,24 @@ export default {
     },
     setUser(state, userId) {
         state.user = userId;
+    },
+    openConversation(state, conversationId) {
+        state.openedConversations = [conversationId];
+    },
+    readMessage(state, message) {
+        let conversation = state.conversations[message.sender_id]
+        if(conversation && conversation.messages) {
+            let msg = conversation.messages.find(m => m.id === message.id)
+            if (msg) {
+                msg.read_at = (new Date()).toISOString()
+            }
+        }
+    },
+    incrementUnread(state, conversationId) {
+        let conversation = state.conversations[conversationId];
+        if(conversation) {
+            console.log(conversation.unread)
+            conversation.unread++;
+        }
     }
 }

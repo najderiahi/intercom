@@ -8,6 +8,9 @@ import CreateAnnonce from './components/CreateAnnonce'
 import ConversationsComponent from "./components/ConversationsComponent";
 import store from './store/store';
 import router from './router/router';
+
+window.io = require('socket.io-client');
+
 const app = new Vue({
     el: '#app',
     components: {

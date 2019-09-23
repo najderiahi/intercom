@@ -34,7 +34,10 @@
                 return this.$store.getters.conversation(this.$route.params.id).count;
             },
             name() {
-                return this.$store.getters.conversation(this.$route.params.id).first_name+" "+this.$store.getters.conversation(this.$route.params.id).last_name;
+                return this.$store.getters.conversation(this.$route.params.id).first_name + " " + this.$store.getters.conversation(this.$route.params.id).last_name;
+            },
+            lastMessage() {
+                return this.messages[this.messages.length - 1]
             }
         },
         data() {
@@ -48,7 +51,6 @@
                 if (this.messages.length < this.count) {
                     this.$messages.addEventListener("scroll", this.onScroll);
                 }
-                this.scrollBot()
             },
             async sendMessage(e) {
                 try {
@@ -59,7 +61,6 @@
                             userId: this.$route.params.id
                         })
                         this.content = ""
-                        this.scrollBot()
                     }
                 } catch (e) {
                 }
@@ -77,6 +78,11 @@
                     }
                 }
             },
+            onVisible() {
+                if (document.hidden === false) {
+                    this.$store.dispatch("loadConversationMessages", this.$route.params.id)
+                }
+            },
             scrollBot() {
                 this.$nextTick(() => {
                     this.$messages.scrollTop = this.$messages.scrollHeight;
@@ -86,12 +92,19 @@
         watch: {
             '$route.params.id': function () {
                 this.loadConversationMessages()
+            },
+            lastMessage() {
+                this.scrollBot()
             }
         },
         mounted() {
             this.loadConversationMessages()
             this.$messages = this.$el.querySelector('.conversation-body')
+            document.addEventListener('visibilitychange', this.onVisible);
         },
-        components: { Message }
+        destroyed() {
+            document.removeEventListener('visibilitychange', this.onVisible);
+        },
+        components: {Message}
     }
 </script>

@@ -54,7 +54,7 @@ class UserTest extends TestCase
 
 
         $response = $this->post('/login', ["email" => $user->email, 'password' => 'password']);
-        $response->assertRedirect("/home");
+        $response->assertRedirect("/feed");
     }
 
     public function testUpdateNameLastNameAndAvatarSucceedWhenUserIsConnected()
@@ -113,7 +113,6 @@ class UserTest extends TestCase
     public function testChangePasswordByUserFailsWhenTheOldPasswordIsIncorrect()
     {
 
-        $this->withoutExceptionHandling();
 
         $user = factory(User::class)->create();
 
