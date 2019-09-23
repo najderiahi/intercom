@@ -17,7 +17,7 @@
                         <div class="mx-3">
                             <h4 class="m-0">{{ $user->first_name." ".$user->last_name }}
                                 @if(Auth::user()->id === $user->id)
-                                <span><a href="{{ route('users.edit', $user->id) }}"><i class="fas fa-pen"></i></a></span>
+                                    <span><a href="{{ route('users.edit', $user->id) }}"><i class="fas fa-pen"></i></a></span>
                                 @endif
                             </h4>
                             <span class="text-muted small"><i class="far fa-envelope"></i> {{ $user->email }}</span>
@@ -33,7 +33,8 @@
                 </div>
             </div>
         </div>
-        <div class="card border-0 shadow-sm my-2">
+        <div class="my-3">
+            <annonce-list initial-url="{{ route('annonces.user.index', $user->id) }}" :user="{{ $user->id }}"></annonce-list>
         </div>
     </div>
 @stop

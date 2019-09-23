@@ -4,7 +4,6 @@
             <div class="list-group">
                 <template v-for="conversation in conversations">
                     <div class="list-group-item d-flex flex-column">
-                        <img :src="conversation.avatar_url" alt="" v-if="conversation.avatar_url">
                         <router-link :to="{name: 'conversation', params: {id: conversation.id} }"
                                      class=" d-flex justify-content-between align-items-center w-100">
                             {{ `${conversation.first_name} ${conversation.last_name}` }}

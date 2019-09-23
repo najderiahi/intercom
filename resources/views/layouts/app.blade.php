@@ -31,10 +31,21 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
+                    @auth
                     <ul class="navbar-nav mr-auto">
-
+                        @can('is-admin')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.dashboard') }}">{{ __('Administration') }}</a>
+                            </li>
+                        @endcan
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('home') }}">{{ __('Annonces récentes') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('conversations.index') }}">{{ __('Discussions') }}</a>
+                        </li>
                     </ul>
-
+                    @endauth
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->

@@ -1975,9 +1975,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    "annonce": Object
+    "annonce": Object,
+    "user": Number
   },
   computed: {
     formattedDate: function formattedDate() {
@@ -2026,8 +2028,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    initialUrl: String,
+    user: Number
+  },
   data: function data() {
     return {
       annonces: [],
@@ -2059,7 +2073,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context.sent;
 
                 if (!response.ok) {
-                  _context.next = 12;
+                  _context.next = 11;
                   break;
                 }
 
@@ -2070,14 +2084,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 data = _context.sent;
                 this.annonces = [].concat(_toConsumableArray(this.annonces), _toConsumableArray(data['data']));
                 this.nextUrl = data['next_page_url'];
-                console.log(data);
-                _context.next = 13;
+                _context.next = 12;
                 break;
 
-              case 12:
+              case 11:
                 this.loading = false;
 
-              case 13:
+              case 12:
               case "end":
                 return _context.stop();
             }
@@ -2134,7 +2147,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           switch (_context3.prev = _context3.next) {
             case 0:
               _context3.next = 2;
-              return this.loadAnnonces("/api/annonces");
+              return this.loadAnnonces(this.initialUrl);
 
             case 2:
             case "end":
@@ -2179,7 +2192,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
 //
 //
 //
@@ -33455,63 +33467,67 @@ var render = function() {
     _c("div", { staticClass: "card-body" }, [
       _c(
         "div",
-        { staticClass: "row" },
+        { staticClass: "d-flex justify-content-between align-items-top" },
         [
-          _vm.annonce.author.avatar
-            ? _c("img", {
-                staticClass: "avatar-img small-avatar",
-                attrs: { src: _vm.annonce.author.avatar_url, alt: "" }
-              })
-            : [
+          _c(
+            "div",
+            { staticClass: "row" },
+            [
+              _vm.annonce.author.avatar
+                ? _c("img", {
+                    staticClass: "avatar-img small-avatar",
+                    attrs: { src: _vm.annonce.author.avatar_url, alt: "" }
+                  })
+                : [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "avatar-img bg-light-success d-flex justify-content-center small-avatar align-items-center text-white large-text"
+                      },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(
+                              "" +
+                                _vm.annonce.author.first_name[0] +
+                                _vm.annonce.author.last_name[0]
+                            ) +
+                            "\n                    "
+                        )
+                      ]
+                    )
+                  ],
+              _vm._v(" "),
+              _c("div", { staticClass: "mx-3" }, [
                 _c(
-                  "div",
+                  "a",
                   {
-                    staticClass:
-                      "avatar-img bg-light-success d-flex justify-content-center small-avatar align-items-center text-white large-text"
+                    staticClass: "text-dark",
+                    attrs: { href: _vm.annonce.author.url }
                   },
                   [
-                    _vm._v(
-                      "\n                    " +
+                    _c("h5", { staticClass: "m-0" }, [
+                      _vm._v(
                         _vm._s(
-                          "" +
-                            _vm.annonce.author.first_name[0] +
-                            _vm.annonce.author.last_name[0]
-                        ) +
-                        "\n                "
-                    )
+                          _vm.annonce.author.first_name +
+                            " " +
+                            _vm.annonce.author.last_name
+                        )
+                      )
+                    ])
                   ]
-                )
-              ],
-          _vm._v(" "),
-          _c("div", { staticClass: "mx-3" }, [
-            _c(
-              "a",
-              {
-                staticClass: "text-dark",
-                attrs: { href: _vm.annonce.author.url }
-              },
-              [
-                _c("h5", { staticClass: "m-0" }, [
-                  _vm._v(
-                    _vm._s(
-                      _vm.annonce.author.first_name +
-                        " " +
-                        _vm.annonce.author.last_name
-                    )
-                  )
+                ),
+                _vm._v(" "),
+                _c("span", { staticClass: "text-muted small" }, [
+                  _vm._v(_vm._s(_vm.formattedDate))
                 ])
-              ]
-            ),
-            _vm._v(" "),
-            _c("span", { staticClass: "text-muted small" }, [
-              _vm._v(_vm._s(_vm.formattedDate))
-            ])
-          ])
-        ],
-        2
-      ),
-      _vm._v(" "),
-      _c("p", { staticClass: "my-3" }, [_vm._v(_vm._s(_vm.annonce.content))])
+              ])
+            ],
+            2
+          )
+        ]
+      )
     ])
   ])
 }
@@ -33541,36 +33557,67 @@ var render = function() {
     "div",
     { ref: "annoncesWrapper" },
     [
-      _vm._l(_vm.annonces, function(annonce) {
-        return _c("annonce-element", {
-          key: annonce.id,
-          attrs: { annonce: annonce }
-        })
-      }),
-      _vm._v(" "),
-      _c("div", { staticClass: "text-center my-3" }, [
-        _c(
-          "button",
-          {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: this.nextUrl && !this.loading,
-                expression: "this.nextUrl && !this.loading"
-              }
-            ],
-            staticClass: "btn btn-primary",
-            on: { click: this.loadMoreAnnonces }
-          },
-          [_vm._v("\n            Charger\n            plus\n        ")]
-        )
-      ])
+      _vm.annonces.length > 0
+        ? [
+            _vm._l(_vm.annonces, function(annonce) {
+              return _c("annonce-element", {
+                key: annonce.id,
+                attrs: { annonce: annonce, user: _vm.user }
+              })
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "text-center my-3" }, [
+              _c(
+                "button",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: this.nextUrl && !this.loading,
+                      expression: "this.nextUrl && !this.loading"
+                    }
+                  ],
+                  staticClass: "btn btn-primary",
+                  on: { click: this.loadMoreAnnonces }
+                },
+                [
+                  _vm._v(
+                    "\n                Charger\n                plus\n            "
+                  )
+                ]
+              )
+            ])
+          ]
+        : _c("div", [_vm._m(0)])
     ],
     2
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "card card-body d-flex flex-column align-items-center justify-content-center border-0 shadow-sm"
+      },
+      [
+        _c("img", {
+          staticClass: "w-75 text-center img-responsive",
+          attrs: { src: "/not_found.svg", alt: "" }
+        }),
+        _vm._v(" "),
+        _c("p", { staticClass: "text-muted text-center my-3" }, [
+          _vm._v("Pas d'annonces disponibles pour l'instant")
+        ])
+      ]
+    )
+  }
+]
 render._withStripped = true
 
 
@@ -33604,12 +33651,6 @@ var render = function() {
                 "div",
                 { staticClass: "list-group-item d-flex flex-column" },
                 [
-                  conversation.avatar_url
-                    ? _c("img", {
-                        attrs: { src: conversation.avatar_url, alt: "" }
-                      })
-                    : _vm._e(),
-                  _vm._v(" "),
                   _c(
                     "router-link",
                     {
@@ -50994,7 +51035,7 @@ __webpack_require__.r(__webpack_exports__);
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var $conversations = document.querySelector("#conversations");
-var router = null;
+var router;
 
 if ($conversations) {
   var routes = [{

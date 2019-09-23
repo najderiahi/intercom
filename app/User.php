@@ -51,4 +51,8 @@ class User extends Authenticatable
         }
         return Storage::disk('local')->url($this->avatar);
     }
+
+    public function annonces() {
+        return $this->hasMany(Annonce::class);
+    }
 }

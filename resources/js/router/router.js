@@ -8,7 +8,7 @@ Vue.use(VueRouter)
 let $conversations = document.querySelector("#conversations");
 
 
-let router = null
+let router
 if($conversations)  {
     const routes = [
         {path: "/"},

@@ -1,11 +1,19 @@
 <template>
     <div ref="annoncesWrapper">
-        <annonce-element :annonce="annonce" v-for="annonce in annonces" :key="annonce.id"></annonce-element>
-        <div class="text-center my-3">
-            <button class="btn btn-primary" @click="this.loadMoreAnnonces" v-show="this.nextUrl && !this.loading">
-                Charger
-                plus
-            </button>
+        <template v-if="annonces.length > 0">
+            <annonce-element :annonce="annonce" :user="user" v-for="annonce in annonces" :key="annonce.id"></annonce-element>
+            <div class="text-center my-3">
+                <button class="btn btn-primary" @click="this.loadMoreAnnonces" v-show="this.nextUrl && !this.loading">
+                    Charger
+                    plus
+                </button>
+            </div>
+        </template>
+        <div v-else>
+            <div class="card card-body d-flex flex-column align-items-center justify-content-center border-0 shadow-sm">
+                <img src="/not_found.svg" alt="" class="w-75 text-center img-responsive">
+                <p class="text-muted text-center my-3">Pas d'annonces disponibles pour l'instant</p>
+            </div>
         </div>
     </div>
 </template>
@@ -14,11 +22,15 @@
     import AnnonceElement from './AnnonceElement'
 
     export default {
+        props: {
+            initialUrl: String,
+            user: Number
+        },
         data() {
             return {
                 annonces: [],
                 nextUrl: null,
-                loading: true
+                loading: true,
             }
         },
         methods: {
@@ -36,7 +48,6 @@
                     const data = await response.json();
                     this.annonces = [...this.annonces, ...data['data']];
                     this.nextUrl = data['next_page_url'];
-                    console.log(data);
                 } else {
                     this.loading = false
                 }
@@ -54,7 +65,7 @@
 
         },
         async mounted() {
-            await this.loadAnnonces("/api/annonces");
+            await this.loadAnnonces(this.initialUrl);
         },
         created() {
             window.addEventListener('scroll', this.handleScroll);

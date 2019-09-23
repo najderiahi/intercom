@@ -6,7 +6,7 @@
             <div class="col-md-10">
                 <create-annonce></create-annonce>
 
-                <annonce-list></annonce-list>
+                <annonce-list initial-url="{{ route('annonces.index') }}" :user="{{ Auth::id() }}"></annonce-list>
             </div>
         </div>
     </div>

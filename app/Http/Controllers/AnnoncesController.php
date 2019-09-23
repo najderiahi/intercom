@@ -26,6 +26,10 @@ class AnnoncesController extends Controller
         return response()->json(Annonce::with('author')->orderBy('created_at', 'DESC')->paginate(5));
     }
 
+    public function userAnnonces(User $user) {
+        return response()->json($user->annonces()->orderBy('created_at', 'DESC')->paginate(5));
+    }
+
     public function store(Request $request) {
         $this->validator($request);
         $data = $request->only(['content']);

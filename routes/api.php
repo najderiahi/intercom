@@ -30,6 +30,8 @@ Route::delete('/images/delete', 'ImageController@destroy')->name('images.destroy
 Route::get('/annonces', 'AnnoncesController@index')->name('annonces.index');
 Route::post('/annonces', 'AnnoncesController@store')->name('annonces.store');
 
+Route::get('/annonces/{user]', 'AnnoncesController@userAnnonces')->name('annonces.user.index');
+
 
 Route::group(['middleware' => ['auth:api', 'can:is-active']], function () {
     Route::get('/conversations', 'Api\ConversationsController@index');
