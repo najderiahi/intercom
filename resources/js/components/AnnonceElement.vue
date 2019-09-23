@@ -19,6 +19,7 @@
                     </div>
                 </div>
             </div>
+            <p class="my-3" v-if="true">{{ annonce.content }}</p>
         </div>
     </div>
 </template>

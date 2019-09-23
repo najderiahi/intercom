@@ -23,7 +23,7 @@
         },
         methods: {
             async submit() {
-                if(!content) return;
+                if(!this.content) return;
 
                 const data = {content: this.content};
                 let response = await fetch("/api/annonces", {
